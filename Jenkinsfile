@@ -6,7 +6,7 @@ pipeline{
     stages{
         stage('Checkout'){
             steps{
-                git 'https://github.com/AnjuMeleth/spring-petclinic.git'
+                git 'https://github.com/nith-art/springpetclinic.git'
             }
         }
         stage('Build'){
@@ -26,22 +26,14 @@ pipeline{
                 archiveArtifacts artifacts: 'target/*.jar', fingerprint: true               
 		}
         }
-	 stage('Reports'){
-            steps{
-                sh 'mvn verify'
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'target/site/jaco
 		stage('Deploy'){
             steps{
-                    
-		// sh "sudo docker build . -t anjurose/petclinic"
-		// sh "sudo docker run -d -p 8091:8080 anjurose/petclinic"
-                ansiblePlaybook credentialsId: 'ubuntu', disableHostKeyChecking: true, inventory: '/etc/ansible/hosts', playbook: './petclinic_latest.yml' 
+                   
+		 sh "sudo docker build . -t anjurose/petclinic"
+		 sh "sudo docker run -d -p 8091:8080 anjurose/petclinic"
+                //ansiblePlaybook credentialsId: 'ubuntu', disableHostKeyChecking: true, inventory: '/etc/ansible/hosts', playbook: './petclinic_latest.yml' 
                 //sh "sudo /opt/puppetlabs/bin/puppet agent -t"   
-        stage('Reports'){
-            steps{
-                sh 'mvn verify'
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'target/site/jacoco', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])     
-                }
+        
         }   
     }
 }
