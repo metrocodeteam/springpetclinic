@@ -1,0 +1,22 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    app: springpetclinic
+    app.kubernetes.io/component: springpetclinic
+    app.kubernetes.io/instance: springpetclinic
+    app.kubernetes.io/name: java
+    app.kubernetes.io/part-of: springpetclinic
+    app.openshift.io/runtime: java
+    app.openshift.io/runtime-version: "11"
+  name: springpetclinic
+  namespace: springpetclinichelm
+spec:
+  host: springpetclinic-springpetclinichelm.apps.containers.aws-ocp.dev.uspto.gov
+  port:
+    targetPort: 8080-tcp
+  to:
+    kind: Service
+    name: springpetclinic
+    weight: 100
+    wildcardPolicy: None

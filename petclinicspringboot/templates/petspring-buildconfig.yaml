@@ -1,0 +1,35 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  labels:
+    app: springpetclinic
+    app.kubernetes.io/component: springpetclinic
+    app.kubernetes.io/instance: springpetclinic
+    app.kubernetes.io/name: java
+    app.kubernetes.io/part-of: springpetclinic
+    app.openshift.io/runtime: java
+    app.openshift.io/runtime-version: "11"
+    name: springpetclinic
+    namespace: springpetclinichelm
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: springpetclinic:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      contextDir: /
+      git:
+        uri: https://github.com/metrocodeteam/springpetclinic.git
+      type: Git
+    strategy:
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: java:11
+          namespace: openshift
+      type: Source
